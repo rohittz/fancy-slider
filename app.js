@@ -4,6 +4,13 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
+const searchBox = document.getElementById("search");
+// Adding enter search feature
+searchBox.addEventListener("keypress", (event) => {
+	if(event.key === "Enter"){
+		searchBtn.click();
+	}
+})
 // selected image
 const sliders = [];
 
@@ -31,20 +38,20 @@ const showImages = (images) => {
 const getImages = (query) => {
 	fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
 		.then(response => response.json())
-		.then(data => showImages(data.hitS))
+		.then(data => showImages(data.hits)) // bug(1)
 		.catch(err => console.log(err))
 }
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
 	const element = event.target;
-	element.classList.add('added');
+	element.classList.toggle('added');
 
 	const item = sliders.indexOf(img);
 	if (item === -1) {
 		sliders.push(img);
 	} else {
-		alert('Hey, Already added !')
+		sliders.pop(img);
 	}
 }
 let timer
@@ -67,7 +74,8 @@ const createSlider = () => {
 	document.querySelector('.main').style.display = 'block';
 	// hide image aria
 	imagesArea.style.display = 'none';
-	const duration = document.getElementById('duration').value || 1000;
+	let duration = document.getElementById('duration').value || 1000;
+	duration = Number(duration) < 0 ? duration = "1000" : duration;
 	sliders.forEach(slide => {
 		const item = document.createElement('div')
 		item.className = "slider-item";
@@ -112,7 +120,6 @@ const changeSlide = (index) => {
 searchBtn.addEventListener('click', () => {
 	document.querySelector('.main').style.display = 'none';
 	clearInterval(timer);
-	const search = document.getElementById('search');
 	getImages(search.value)
 	sliders.length = 0;
 })
