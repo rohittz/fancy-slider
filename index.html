@@ -47,6 +47,7 @@
             </div>
             <section class="images">
                 <div
+                    id="options"
                     class="justify-content-around align-items-center mt-3 gallery-header mb-2"
                 >
                     <h3 class="head-title text-center">
@@ -63,7 +64,23 @@
                         Create slider
                     </button>
                 </div>
+                <!-- spinner -->
+                <div
+                    id="spinner-container"
+                    class="d-flex justify-content-center"
+                >
+                    <div
+                        id="spinner"
+                        class="d-none spinner-grow text-primary"
+                        role="status"
+                    >
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div class="row gallery"></div>
+                <div id="selected-img-container" class="d-none">
+                    <h3 id="selected-num">0</h3>
+                </div>
             </section>
             <!-- slider -->
             <div class="main">
@@ -73,6 +90,9 @@
                 >
                     <span class="dot" onclick="changeItem(-1)"></span>
                     <span class="dot" onclick="changeItem(1)"></span>
+                </div>
+                <div id="search-again" class="d-none justify-content-center">
+                    <button class="btn btn-warning">Create New Slider</button>
                 </div>
             </div>
         </div>

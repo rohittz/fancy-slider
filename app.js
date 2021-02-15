@@ -5,11 +5,20 @@ const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 const searchBox = document.getElementById("search");
+const spinner = document.getElementById("spinner");
+const selectedCounterContainer = document.getElementById("selected-img-container");
+const selectedImageCounter = document.getElementById("selected-num");
+const searchAgain = document.getElementById("search-again");
+let selectedImage = 0;
 // Adding enter search feature
 searchBox.addEventListener("keypress", (event) => {
 	if(event.key === "Enter"){
 		searchBtn.click();
 	}
+})
+// Reload page if create again clicked
+searchAgain.addEventListener("click", () => {
+	window.location.reload();
 })
 // selected image
 const sliders = [];
@@ -24,18 +33,38 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 const showImages = (images) => {
 	imagesArea.style.display = 'block';
 	gallery.innerHTML = '';
-	// show gallery title
 	galleryHeader.style.display = 'flex';
-	images.forEach(image => {
-		const div = document.createElement('div');
-		div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-		div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-		gallery.appendChild(div)
-	})
+	// show an image-not-found message if image not found
+	if(images.length === 0){
+		document.getElementById("options").style.display = "none";
+		gallery.style.cssText =
+			"display:flex; flex-flow: column nowrap; justify-content : center; align-items : center;";
+		gallery.innerHTML =
+			`
+			<div class = "image-not-found">
+				<h1> IMAGE NOT FOUND! </h1>
+			<div class = "not-found-image">
+			<img class = "img-fluid" src  ="images/image-not-found.png" alt= "error-message">
+			</div>
+			</div>
+			`
+	}
+	// show gallery title
+	else{
+		images.forEach(image => {
+			const div = document.createElement('div');
+			div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
+			div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+			gallery.appendChild(div);
+			selectedCounterContainer.classList.remove("d-none");
+		})
+	}
 
+	spinner.classList.toggle("d-none");
 }
 
 const getImages = (query) => {
+	spinner.classList.toggle("d-none");
 	fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
 		.then(response => response.json())
 		.then(data => showImages(data.hits)) // bug(1)
@@ -50,9 +79,12 @@ const selectItem = (event, img) => {
 	const item = sliders.indexOf(img);
 	if (item === -1) {
 		sliders.push(img);
+		selectedImage +=1;
 	} else {
-		sliders.pop(img);
+		sliders.splice(item, 1);
+		selectedImage -=1;
 	}
+	selectedImageCounter.innerHTML = `${selectedImage}`;
 }
 let timer
 const createSlider = () => {
@@ -62,6 +94,7 @@ const createSlider = () => {
 		return;
 	}
 	// crate slider previous next area
+	imagesArea.style.display = 'none';
 	sliderContainer.innerHTML = '';
 	const prevNext = document.createElement('div');
 	prevNext.className = "prev-next d-flex w-100 justify-content-between align-items-center";
@@ -72,8 +105,7 @@ const createSlider = () => {
 
 	sliderContainer.appendChild(prevNext)
 	document.querySelector('.main').style.display = 'block';
-	// hide image aria
-	imagesArea.style.display = 'none';
+	// hide image area
 	let duration = document.getElementById('duration').value || 1000;
 	duration = Number(duration) < 0 ? duration = "1000" : duration;
 	sliders.forEach(slide => {
@@ -89,6 +121,7 @@ const createSlider = () => {
 		slideIndex++;
 		changeSlide(slideIndex);
 	}, duration);
+	spinner.classList.toggle("d-none");
 }
 
 // change slider index
@@ -125,5 +158,10 @@ searchBtn.addEventListener('click', () => {
 })
 
 sliderBtn.addEventListener('click', () => {
-	createSlider()
-})
+	setTimeout(() => {
+		createSlider();
+		searchAgain.classList.remove("d-none");
+		searchAgain.classList.add("d-flex");
+	}, 3000);
+	spinner.classList.toggle("d-none");
+});
