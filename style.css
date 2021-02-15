@@ -87,15 +87,22 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 105, 217, 0.8);
+    background-color: #ffc107f3;
     font-size: 16px;
     padding: 10px;
     width: 60px;
     height: 60px;
     border-radius: 40px;
-    color: white;
+    color: black;
     bottom: 20px;
     right: 20px;
+    transition: border 0.1s ease-in-out;
+}
+.selected-count-border {
+    border: 0px solid #feda94;
+}
+.bottom-slider-maker {
+    background: url(images/bottom.svg);
 }
 #selected-img-container > h3 {
     margin: auto;

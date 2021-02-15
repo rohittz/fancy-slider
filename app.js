@@ -80,9 +80,12 @@ const selectItem = (event, img) => {
 	if (item === -1) {
 		sliders.push(img);
 		selectedImage +=1;
+		document.getElementsByClassName("selected-count-border")[0].style.border = "5px solid #6C5103";
+
 	} else {
 		sliders.splice(item, 1);
 		selectedImage -=1;
+		document.getElementsByClassName("selected-count-border")[0].style.border = "0px solid";
 	}
 	selectedImageCounter.innerHTML = `${selectedImage}`;
 }
