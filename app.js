@@ -120,6 +120,9 @@ let timer
 const createSlider = () => {
 	// check slider image length
 	if (sliders.length < 2) {
+		if(!spinner.classList.contains("d-none")){
+			spinner.classList.add("d-none");
+		}
 		alert('Select at least 2 image.')
 		return;
 	}
