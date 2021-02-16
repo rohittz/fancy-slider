@@ -107,7 +107,7 @@ const selectItem = (event, img) => {
 	if (item === -1) {
 		sliders.push(img);
 		selectedImage +=1;
-		document.getElementsByClassName("selected-count-border")[0].style.border = "5px solid white";
+		document.getElementsByClassName("selected-count-border")[0].style.border = "5px solid #007BFF";
 
 	} else {
 		sliders.splice(item, 1);
