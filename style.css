@@ -5,7 +5,34 @@
     margin: 0 auto;
     position: relative;
 }
-
+.goto-top,
+#selected-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.goto-top {
+    display: flex;
+    opacity: 0;
+    width: 160px;
+    height: 60px;
+    position: fixed;
+    border-radius: 30px;
+    right: 90px;
+    bottom: 20px;
+    background-color: #555e73;
+    color: white;
+    cursor: pointer;
+    transform: translateY(100px);
+    transition: all 0.4s ease-in-out;
+}
+.showtopbtn {
+    opacity: 0.9;
+    transform: translateY(0px);
+}
+#goto-top > h3 {
+    font-size: 23px;
+}
 .gallery-header {
     display: none;
 }
@@ -83,23 +110,24 @@ img {
     margin-top: 50px;
 }
 #selected-img-container {
+    opacity: 0.9;
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffc107f3;
+    background-color: #31313a;
     font-size: 16px;
-    padding: 10px;
+    padding: 5px;
     width: 60px;
     height: 60px;
-    border-radius: 40px;
-    color: black;
+    border-radius: 60px;
+    color: white;
     bottom: 20px;
     right: 20px;
-    transition: border 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
 }
 .selected-count-border {
-    border: 0px solid #feda94;
+    border: 0px solid white;
 }
 .bottom-slider-maker {
     background: url(images/bottom.svg);

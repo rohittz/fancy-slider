@@ -10,16 +10,43 @@ const selectedCounterContainer = document.getElementById("selected-img-container
 const selectedImageCounter = document.getElementById("selected-num");
 const searchAgain = document.getElementById("search-again");
 let selectedImage = 0;
-// Adding enter search feature
-searchBox.addEventListener("keypress", (event) => {
-	if(event.key === "Enter"){
-		searchBtn.click();
+// Adding enter button feature
+const enterClicked = (key, clickThis) => {
+	if(key === "Enter"){
+		clickThis.click();
 	}
+}
+searchBox.addEventListener("keypress", (event) => {
+	enterClicked(event.key, searchBtn);
+});
+document.getElementById("duration").addEventListener("keypress", (event) => {
+	enterClicked(event.key, sliderBtn);
 })
 // Reload page if create again clicked
 searchAgain.addEventListener("click", () => {
 	window.location.reload();
 })
+// adding go to top button
+const goToTopBtn = document.getElementsByClassName("goto-top")[0];
+const goToTopClicked = () => {
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
+}
+goToTopBtn.addEventListener("click", goToTopClicked);
+// when to show the button
+const showGoTopBtn = () => {
+	if(document.body.scrollTop > 200 || document.documentElement.scrollTop > 200){
+
+		goToTopBtn.classList.add("showtopbtn");
+	}
+	else{
+		goToTopBtn.classList.remove("showtopbtn");
+	}
+}
+window.onscroll = showGoTopBtn;
+// when user clicks on the button
+
+
 // selected image
 const sliders = [];
 
@@ -80,7 +107,7 @@ const selectItem = (event, img) => {
 	if (item === -1) {
 		sliders.push(img);
 		selectedImage +=1;
-		document.getElementsByClassName("selected-count-border")[0].style.border = "5px solid #6C5103";
+		document.getElementsByClassName("selected-count-border")[0].style.border = "5px solid white";
 
 	} else {
 		sliders.splice(item, 1);
@@ -165,6 +192,6 @@ sliderBtn.addEventListener('click', () => {
 		createSlider();
 		searchAgain.classList.remove("d-none");
 		searchAgain.classList.add("d-flex");
-	}, 3000);
+	}, 2000);
 	spinner.classList.toggle("d-none");
 });
